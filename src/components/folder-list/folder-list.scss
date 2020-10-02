@@ -1,0 +1,10 @@
+@import "../../styles/variables.scss";
+
+.folder-list-container {
+  background-color: $lightBlue !important;
+  height: 100%;
+  .add-folder {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}

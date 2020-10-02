@@ -1,12 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.scss";
-import App from "./App";
+import "./styles/index.scss";
+import { AppConnected } from "./components/App/App";
 import * as serviceWorker from "./serviceWorker";
+import { Provider } from "react-redux";
+import { store } from "./redux/store/store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <AppConnected />
+    </Provider>
+    ,
   </React.StrictMode>,
   document.getElementById("myNoteRoot")
 );

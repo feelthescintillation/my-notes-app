@@ -1,0 +1,12 @@
+@import "../../styles/variables.scss";
+
+.editor-area {
+  margin-top: 0.5rem;
+  height: 90vh;
+  max-height: 90vh;
+  border-radius: 0.25rem;
+  border: 1px solid $black;
+  background-color: $gray;
+  text-align: left;
+  overflow-y: scroll;
+}
