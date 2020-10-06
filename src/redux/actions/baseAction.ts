@@ -1,6 +1,6 @@
-import { Actions } from "./types";
+import { Actions } from './types';
 
 export interface BaseAction {
-  type: Actions;
-  payload?: any;
+    type: Actions;
+    payload?: any;
 }

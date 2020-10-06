@@ -1,4 +1,4 @@
-import { AppState } from "./appState";
+import { AppState } from './appState';
 export interface NoteApplicationState {
-  app: AppState;
+    app: AppState;
 }

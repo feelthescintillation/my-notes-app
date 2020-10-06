@@ -1,8 +1,8 @@
 export interface Folder {
-  id: string;
-  name: string;
-  color?: string;
+    id: string;
+    name: string;
+    color?: string;
 }
 export interface AllFolders {
-  [key: string]: Folder;
+    [key: string]: Folder;
 }

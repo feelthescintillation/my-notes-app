@@ -1,5 +1,5 @@
-import { AllNotes } from "./../model/note";
+import { AllNotes } from './../model/note';
 export interface FolderListState {
-  selectedFolderIndex?: number;
-  toggleAdd?: boolean;
+    selectedFolderIndex?: number;
+    toggleAdd?: boolean;
 }
