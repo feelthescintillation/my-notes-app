@@ -29,11 +29,12 @@ export const EnterableInput = (props: EnterableInput) => {
             type="text"
             onKeyDown={handleKeyDown}
             value={val}
-            onChange={(event) => {
+            onChange={(event): void => {
                 setVal(event.target.value);
                 checkValidity();
             }}
             style={valid ? {} : { border: '1px solid red' }}
+            autoFocus
         />
     );
 };
