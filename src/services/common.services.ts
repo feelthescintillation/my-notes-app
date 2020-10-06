@@ -4,7 +4,7 @@
  *
  */
 
-export interface IStorageItem {
+export interface StorageItem {
     key: string;
     value: any;
 }
@@ -13,7 +13,7 @@ export class StorageItem {
     key: string;
     value: any;
 
-    constructor(data: IStorageItem) {
+    constructor(data: StorageItem) {
         this.key = data.key;
         this.value = data.value;
     }

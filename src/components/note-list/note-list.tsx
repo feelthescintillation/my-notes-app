@@ -23,8 +23,6 @@ class NoteList extends React.Component<Prop, NoteListState> {
         this.state = { toggleAdd: false };
     }
 
-    componentDidMount() {}
-
     selectNote = (noteId: string) => {
         this.props.dispatchSelectNote(noteId, this.props.selectedFolder);
     };
