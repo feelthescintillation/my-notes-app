@@ -75,11 +75,15 @@ export function updateFolder(folderId: string, folder: Folder | null, deleteFold
     return getAllFolders();
 }
 
-export function updateNote(note: Note): Note {
+export function updateNote(note: Note, deleteNote?: boolean): Note {
     const allNotes: AllNotes = getAllNotes();
 
-    const notes: Notes = allNotes?.[note.folderId];
-    notes[note.id] = note;
+    if (true === deleteNote) {
+        delete allNotes[note.folderId][note.id];
+    } else {
+        const notes: Notes = allNotes?.[note.folderId];
+        notes[note.id] = note;
+    }
     const didSave = sessionStorageWorker.set(ALL_NOTES_KEY, allNotes);
     if (didSave) {
         //invalidate cache

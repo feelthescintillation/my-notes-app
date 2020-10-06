@@ -10,9 +10,9 @@ import { getNewId } from '../../services/common.services';
 import { ListItem } from '../list-item/list-item';
 
 type Prop = {
-    dispatchAddNote: (payload: Note) => {};
-    dispatchSelectNote: (noteId: string, folderId: string) => {};
-    dispatchDeleteNote: (key: string) => {};
+    dispatchAddNote: (payload: Note) => void;
+    dispatchSelectNote: (noteId: string, folderId: string) => void;
+    dispatchDeleteNote: (payload?: Note) => void;
     selectedFolder: string;
     selectedNote?: string;
     noteList: Notes | null;
@@ -25,6 +25,10 @@ class NoteList extends React.Component<Prop, NoteListState> {
 
     selectNote = (noteId: string) => {
         this.props.dispatchSelectNote(noteId, this.props.selectedFolder);
+    };
+
+    dispatchDeleteNote = (noteId: string): void => {
+        this.props.dispatchDeleteNote(this.props.noteList?.[noteId]);
     };
 
     render() {
@@ -66,7 +70,7 @@ class NoteList extends React.Component<Prop, NoteListState> {
                                     itemKey={noteKey}
                                     selected={noteKey === this.props?.selectedNote}
                                     key={noteKey}
-                                    deleteClickHandler={this.props?.dispatchDeleteNote}
+                                    deleteClickHandler={this.dispatchDeleteNote}
                                 ></ListItem>
                             );
                         })}
@@ -77,20 +81,20 @@ class NoteList extends React.Component<Prop, NoteListState> {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-    dispatchAddNote: (payload: Note) =>
+    dispatchAddNote: (payload: Note): void =>
         dispatch({
             type: FolderActionTypes.FOLDER_ADD_NOTE,
             payload: payload,
         }),
-    dispatchSelectNote: (noteId: string, folderId: string) =>
+    dispatchSelectNote: (noteId: string, folderId: string): void =>
         dispatch({
             type: AppActionTypes.APP_SELECT_NOTE,
             payload: { id: noteId, folderId },
         }),
-    dispatchDeleteNote: (noteId: string) =>
+    dispatchDeleteNote: (payload?: Note): void =>
         dispatch({
             type: FolderActionTypes.FOLDER_DEL_NOTE,
-            payload: noteId,
+            payload,
         }),
 });
 

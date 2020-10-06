@@ -1,6 +1,6 @@
+import { Note } from './../../types/model/note';
 import { NoteActionTypes, AppActionTypes } from './../actions/types';
 import { BaseAction } from '../actions/baseAction';
-import { Note } from '../../types/model/note';
 import { put, takeLatest, call, delay } from 'redux-saga/effects';
 import { FolderActionTypes } from '../actions/types';
 import * as Services from '../../services/folder.services';
@@ -10,7 +10,7 @@ function* addNote(action: BaseAction) {
     const updatedFolder = yield call(Services.addNote, note);
     yield put({
         type: FolderActionTypes.FOLDER_GET_ALL_NOTES,
-        payload: updatedFolder,
+        payload: note.folderId,
     });
 }
 
@@ -35,9 +35,17 @@ function* getNote(action: BaseAction) {
 
 function* updateNote(action: BaseAction) {
     yield delay(500);
-    console.log(action.payload?.note?.content);
     const { note } = action.payload;
     yield call(Services.updateNote, note);
+}
+
+function* deleteNote(action: BaseAction) {
+    const note = action.payload as Note;
+    const updated = yield call(Services.updateNote, note, true);
+    yield put({
+        type: FolderActionTypes.FOLDER_GET_ALL_NOTES,
+        payload: note.folderId,
+    });
 }
 
 export function* watchAddNote() {
@@ -55,7 +63,10 @@ export function* watchGetNote() {
 export function* watchUpdateNote() {
     yield takeLatest(NoteActionTypes.NOTE_UPDATE, updateNote);
 }
+export function* watchDeleteNote() {
+    yield takeLatest(FolderActionTypes.FOLDER_DEL_NOTE, deleteNote);
+}
 
 export function noteSagas(): Generator<any>[] {
-    return [watchAddNote(), watchGetAllNotes(), watchGetNote(), watchUpdateNote()];
+    return [watchAddNote(), watchGetAllNotes(), watchGetNote(), watchUpdateNote(), watchDeleteNote()];
 }
