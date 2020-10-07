@@ -11,22 +11,26 @@ import { NoteApplicationState } from '../../types/state/noteApplicationState';
 import { Notes } from '../../types/model/note';
 import { ConnectedEditor } from '../editor/editor';
 
-class App extends React.Component<
-    {
-        getUser: () => {};
-        getAllFolders: () => {};
-        selectedFolderId?: string;
-        selectedNoteId?: string;
-        folderList: AllFolders | null;
-        noteList: Notes | null;
-        user: User | null;
-    },
-    any
-> {
+type Props = {
+    getUser: () => {};
+    getAllFolders: () => {};
+    dispatchSelectNote: (noteId: string, folderId?: string) => {};
+    selectedFolderId?: string;
+    selectedNoteId?: string;
+    folderList: AllFolders | null;
+    noteList: Notes | null;
+    user: User | null;
+};
+class App extends React.Component<Props, any> {
     componentDidMount() {
         this.props.getUser();
         this.props.getAllFolders();
     }
+    componentDidUpdate = (prevProps: Props): void => {
+        if (this.props.selectedFolderId !== prevProps.selectedFolderId) {
+            this.props.dispatchSelectNote('', this.props.selectedFolderId);
+        }
+    };
     render() {
         return (
             <div className="App">
@@ -82,6 +86,11 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch({
             type: AppActionTypes.APP_GET_ALL_FOLDERS,
             payload: folderId,
+        }),
+    dispatchSelectNote: (noteId: string, folderId?: string) =>
+        dispatch({
+            type: AppActionTypes.APP_SELECT_NOTE,
+            payload: { id: noteId, folderId },
         }),
 });
 // TODO appconnected name

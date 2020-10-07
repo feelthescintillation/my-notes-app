@@ -48,7 +48,7 @@ export function getNote(folderId: string, noteId: string): Note {
     return getNotesInFolder(folderId)[noteId];
 }
 
-export function addNote(note: Note) {
+export function addNote(note: Note): void {
     const allNotes = getAllNotes() || { [note.folderId]: { [note.id]: {} } };
     allNotes[note.folderId] = allNotes[note.folderId] || {};
     allNotes[note.folderId][note.id] = note;
@@ -57,30 +57,16 @@ export function addNote(note: Note) {
         //invalidate cache
         cache.allNotes = null;
     }
-    return getNotesInFolder(note.folderId);
 }
 
-export function updateFolder(folderId: string, folder: Folder | null, deleteFolder?: boolean): AllFolders {
-    const allFolders = getAllFolders() || {};
-    if (true === deleteFolder) {
-        delete allFolders[folderId];
-    } else {
-        folder && (allFolders[folderId] = folder);
-    }
-    const didSave = sessionStorageWorker.set(ALL_FOLDER_KEY, allFolders);
-    if (didSave) {
-        //invalidate cache
-        cache.allFolders = null;
-    }
-    return getAllFolders();
-}
-
-export function updateNote(note: Note, deleteNote?: boolean): Note {
+export function updateAllNotes(note: Note, deleteNote?: boolean, deleteAllNotesInFolder?: boolean): void {
     const allNotes: AllNotes = getAllNotes();
 
     if (true === deleteNote) {
         delete allNotes[note.folderId][note.id];
-    } else {
+    } else if (true === deleteAllNotesInFolder) {
+        delete allNotes[note.folderId];
+    } else if (note && note.id) {
         const notes: Notes = allNotes?.[note.folderId];
         notes[note.id] = note;
     }
@@ -89,7 +75,21 @@ export function updateNote(note: Note, deleteNote?: boolean): Note {
         //invalidate cache
         cache.allNotes = null;
     }
-    return getNote(note.folderId, note.id);
+}
+
+export function updateAllFolders(folderId: string, folder: Folder | null, deleteFolder?: boolean): void {
+    const allFolders = getAllFolders() || {};
+    if (true === deleteFolder) {
+        delete allFolders[folderId];
+        updateAllNotes({ id: '', folderId }, false, true);
+    } else {
+        folder && (allFolders[folderId] = folder);
+    }
+    const didSave = sessionStorageWorker.set(ALL_FOLDER_KEY, allFolders);
+    if (didSave) {
+        //invalidate cache
+        cache.allFolders = null;
+    }
 }
 
 export function getUser(): Promise<User> {

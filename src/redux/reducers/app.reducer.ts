@@ -29,7 +29,7 @@ export const appReducer = (
                 return state;
             }
             const { id } = action.payload;
-            return { ...state, selectedNoteId: id };
+            return { ...state, selectedNoteId: id || null };
         }
 
         case UserActionTypes.USER_RECIEVED: {

@@ -7,7 +7,7 @@ import * as Services from '../../services/folder.services';
 
 function* addNote(action: BaseAction) {
     const note = action.payload as Note;
-    const updatedFolder = yield call(Services.addNote, note);
+    yield call(Services.addNote, note);
     yield put({
         type: FolderActionTypes.FOLDER_GET_ALL_NOTES,
         payload: note.folderId,
@@ -25,23 +25,25 @@ function* getAllNotes(action: BaseAction) {
 
 function* getNote(action: BaseAction) {
     const { folderId, id } = action.payload;
-    const note = yield call(Services.getNote, folderId, id);
+    if (folderId && id) {
+        const note = yield call(Services.getNote, folderId, id);
 
-    yield put({
-        type: NoteActionTypes.NOTE_RECIEVED,
-        payload: note,
-    });
+        yield put({
+            type: NoteActionTypes.NOTE_RECIEVED,
+            payload: note,
+        });
+    }
 }
 
 function* updateNote(action: BaseAction) {
     yield delay(500);
     const { note } = action.payload;
-    yield call(Services.updateNote, note);
+    yield call(Services.updateAllNotes, note);
 }
 
 function* deleteNote(action: BaseAction) {
     const note = action.payload as Note;
-    const updated = yield call(Services.updateNote, note, true);
+    yield call(Services.updateAllNotes, note, true);
     yield put({
         type: FolderActionTypes.FOLDER_GET_ALL_NOTES,
         payload: note.folderId,

@@ -27,6 +27,17 @@ class Editor extends React.Component<Props, EditorState> {
             this.elemRef.current.innerHTML = this.props.content || '';
         }
         this.setState({ note: { ...this.props } });
+        const el = this.elemRef.current;
+        if (el) {
+            const target = document.createTextNode('');
+            el.appendChild(target);
+            // do not move caret if element was not focused
+            if (target !== null && target.nodeValue !== null) {
+                document?.getSelection()?.collapse(target, target.length);
+                if (el instanceof HTMLElement) el.focus();
+            }
+            this.elemRef.current?.focus();
+        }
     }
 
     elemRef: React.RefObject<HTMLInputElement>;

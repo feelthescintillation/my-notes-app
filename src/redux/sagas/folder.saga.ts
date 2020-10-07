@@ -14,19 +14,23 @@ function* getAllFolders() {
 
 function* updateFolder(action: BaseAction) {
     const folder = action.payload as Folder;
-    const updated = yield call(Services.updateFolder, folder.id, folder);
+    yield call(Services.updateAllFolders, folder.id, folder);
     yield put({
-        type: AppActionTypes.APP_ALL_FOLDERS_RECIEVED,
-        payload: updated,
+        type: AppActionTypes.APP_GET_ALL_FOLDERS,
+        payload: null,
     });
 }
 
 function* deleteFolder(action: BaseAction) {
     const folderId = action.payload as string;
-    const updated = yield call(Services.updateFolder, folderId, null, true);
+    yield call(Services.updateAllFolders, folderId, null, true);
     yield put({
-        type: AppActionTypes.APP_ALL_FOLDERS_RECIEVED,
-        payload: updated,
+        type: AppActionTypes.APP_GET_ALL_FOLDERS,
+        payload: null,
+    });
+    yield put({
+        type: FolderActionTypes.FOLDER_GET_ALL_NOTES,
+        payload: folderId,
     });
 }
 
