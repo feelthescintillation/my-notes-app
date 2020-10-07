@@ -1,0 +1,13 @@
+@import "../../styles/variables.scss";
+
+.note-list-container {
+  background-color: $blue2 !important;
+  height: 100%;
+  .add-note {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .list-item.selected {
+    background-color: $darkBlue2 !important;
+  }
+}

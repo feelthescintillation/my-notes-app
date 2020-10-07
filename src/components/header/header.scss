@@ -1,0 +1,10 @@
+@import "../../styles/variables.scss";
+
+header {
+  background-color: $black;
+  position: sticky;
+  height: 4rem;
+  color: $white;
+  vertical-align: middle;
+  line-height: 4rem;
+}

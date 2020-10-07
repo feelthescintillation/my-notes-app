@@ -1,14 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './styles/index.scss';
+import { AppConnected } from './components/App/App';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import { store } from './redux/store/store';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Provider store={store}>
+            <AppConnected />
+        </Provider>
+        ,
+    </React.StrictMode>,
+    document.getElementById('myNoteRoot'),
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,0 +1,16 @@
+@import "../../styles/variables.scss";
+
+.editor-area {
+  height: 92vh;
+  max-height: 92vh;
+  border: 1px solid $black;
+  background-color: $editor;
+  text-align: left;
+  overflow-y: scroll;
+  padding: 0.2rem;
+  &:focus {
+    border: 2px solid $orange;
+    outline: 0px solid transparent;
+  }
+  color: $white;
+}
