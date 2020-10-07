@@ -1,4 +1,4 @@
-#`My Note App`
+## `My Note App`
 
 This is a simple react / redux / saga note app which lets user create notes in folders and the notes are saved as user type.
 The current implementation allows only data save in session storage
