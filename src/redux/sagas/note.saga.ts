@@ -1,4 +1,4 @@
-import { Note } from './../../types/model/note';
+import { Note, Notes } from './../../types/model/note';
 import { NoteActionTypes, AppActionTypes } from './../actions/types';
 import { BaseAction } from '../actions/baseAction';
 import { put, takeLatest, call, delay } from 'redux-saga/effects';
@@ -16,7 +16,7 @@ function* addNote(action: BaseAction) {
 
 function* getAllNotes(action: BaseAction) {
     const folderId = action.payload as string;
-    const allNotes = yield call(Services.getNotesInFolder, folderId);
+    const allNotes: Notes = yield call(Services.getNotesInFolder, folderId);
     yield put({
         type: FolderActionTypes.FOLDER_ALL_NOTES_RECIEVED,
         payload: allNotes,
@@ -26,7 +26,7 @@ function* getAllNotes(action: BaseAction) {
 function* getNote(action: BaseAction) {
     const { folderId, id } = action.payload;
     if (folderId && id) {
-        const note = yield call(Services.getNote, folderId, id);
+        const note: Note = yield call(Services.getNote, folderId, id);
 
         yield put({
             type: NoteActionTypes.NOTE_RECIEVED,

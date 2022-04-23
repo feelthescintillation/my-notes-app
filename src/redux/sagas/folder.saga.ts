@@ -2,10 +2,10 @@ import { BaseAction } from '../actions/baseAction';
 import { AppActionTypes, FolderActionTypes } from '../actions/types';
 import { put, takeLatest, call } from 'redux-saga/effects';
 import * as Services from '../../services/folder.services';
-import { Folder } from '../../types/model/folder';
+import { AllFolders, Folder } from '../../types/model/folder';
 
 function* getAllFolders() {
-    const allFolders = yield call(Services.getAllFolders);
+    const allFolders: AllFolders = yield call(Services.getAllFolders);
     yield put({
         type: AppActionTypes.APP_ALL_FOLDERS_RECIEVED,
         payload: allFolders,
